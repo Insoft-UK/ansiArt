@@ -25,7 +25,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		133669302BE82EA000484032 /* bmp2ansi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = bmp2ansi; sourceTree = BUILT_PRODUCTS_DIR; };
+		130BEBC62CA1C48600E921B4 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		133669302BE82EA000484032 /* ansiart */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ansiart; sourceTree = BUILT_PRODUCTS_DIR; };
 		133669332BE82EA000484032 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1336693A2BE82F4200484032 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1336693B2BE82F4D00484032 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -55,6 +56,7 @@
 				1336693A2BE82F4200484032 /* README.md */,
 				138F54E22CA0E72B009357F9 /* LICENSE */,
 				1336693B2BE82F4D00484032 /* Makefile */,
+				130BEBC62CA1C48600E921B4 /* assets */,
 				138F54E32CA0E7B3009357F9 /* examples */,
 				133669322BE82EA000484032 /* src */,
 				133669312BE82EA000484032 /* Products */,
@@ -64,7 +66,7 @@
 		133669312BE82EA000484032 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				133669302BE82EA000484032 /* bmp2ansi */,
+				133669302BE82EA000484032 /* ansiart */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,9 +103,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1336692F2BE82EA000484032 /* bmp2ansi */ = {
+		1336692F2BE82EA000484032 /* ansiart */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 133669372BE82EA000484032 /* Build configuration list for PBXNativeTarget "bmp2ansi" */;
+			buildConfigurationList = 133669372BE82EA000484032 /* Build configuration list for PBXNativeTarget "ansiart" */;
 			buildPhases = (
 				13EE0F3D2BE82FD6000FF54A /* ShellScript */,
 				1336692C2BE82EA000484032 /* Sources */,
@@ -114,9 +116,9 @@
 			);
 			dependencies = (
 			);
-			name = bmp2ansi;
+			name = ansiart;
 			productName = piXsprite;
-			productReference = 133669302BE82EA000484032 /* bmp2ansi */;
+			productReference = 133669302BE82EA000484032 /* ansiart */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -133,7 +135,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1336692B2BE82EA000484032 /* Build configuration list for PBXProject "bmp2ansi" */;
+			buildConfigurationList = 1336692B2BE82EA000484032 /* Build configuration list for PBXProject "ansiart" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -146,7 +148,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1336692F2BE82EA000484032 /* bmp2ansi */,
+				1336692F2BE82EA000484032 /* ansiart */,
 			);
 		};
 /* End PBXProject section */
@@ -326,7 +328,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1336692B2BE82EA000484032 /* Build configuration list for PBXProject "bmp2ansi" */ = {
+		1336692B2BE82EA000484032 /* Build configuration list for PBXProject "ansiart" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				133669352BE82EA000484032 /* Debug */,
@@ -335,7 +337,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		133669372BE82EA000484032 /* Build configuration list for PBXNativeTarget "bmp2ansi" */ = {
+		133669372BE82EA000484032 /* Build configuration list for PBXNativeTarget "ansiart" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				133669382BE82EA000484032 /* Debug */,

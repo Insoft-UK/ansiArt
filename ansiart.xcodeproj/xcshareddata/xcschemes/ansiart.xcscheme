@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1336692F2BE82EA000484032"
-               BuildableName = "bmp2ansi"
-               BlueprintName = "bmp2ansi"
-               ReferencedContainer = "container:bmp2ansi.xcodeproj">
+               BuildableName = "ansiart"
+               BlueprintName = "ansiart"
+               ReferencedContainer = "container:ansiart.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1336692F2BE82EA000484032"
-            BuildableName = "bmp2ansi"
-            BlueprintName = "bmp2ansi"
-            ReferencedContainer = "container:bmp2ansi.xcodeproj">
+            BuildableName = "ansiart"
+            BlueprintName = "ansiart"
+            ReferencedContainer = "container:ansiart.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -88,9 +88,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1336692F2BE82EA000484032"
-            BuildableName = "bmp2ansi"
-            BlueprintName = "bmp2ansi"
-            ReferencedContainer = "container:bmp2ansi.xcodeproj">
+            BuildableName = "ansiart"
+            BlueprintName = "ansiart"
+            ReferencedContainer = "container:ansiart.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
