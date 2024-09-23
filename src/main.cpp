@@ -76,24 +76,14 @@ void usage(void)
 {
     std::cout << "Copyright (C) 2024 Insoft. All rights reserved.\n";
     std::cout << "Insoft ANSI Code Art Creator.\n\n";
-    std::cout << "Usage: bmp2ansi filename [-options]\n";
-    std::cout << "\n";
-    
-    // TODO: Add verbose
-    std::cout << " -v display detailed processing information\n";
-    std::cout << "\tFlags:\n";
-    std::cout << "\t\ta atlas\n";
-    std::cout << "\t\tt texture\n\n";
-    
-    std::cout << " -b\tBits per pixel for color depth, 4 or 8(default).\n";
-    std::cout << " -m\tColor that should be treated as transparent.\n";
+    std::cout << "Usage: bmp2ansi filename\n";
     std::cout << "\n";
     std::cout << "Usage: bmp2ansi {-version | -help}\n";
 }
 
 void version(void) {
     std::cout
-    << "ANSI Art Creator v"
+    << "ANSI Art Generator v"
     << (unsigned)__BUILD_NUMBER / 100000 << "."
     << (unsigned)__BUILD_NUMBER / 10000 % 10 << "."
     << (unsigned)__BUILD_NUMBER / 1000 % 10 << "."
