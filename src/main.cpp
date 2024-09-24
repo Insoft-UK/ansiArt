@@ -53,11 +53,11 @@ enum class MessageType {
 std::ostream& operator<<(std::ostream& os, MessageType type) {
     switch (type) {
         case MessageType::Error:
-            os << "\033[91;1;1;1merror\033[0m: ";
+            os << R"(\e[1;91mError\e[0m: )";
             break;
 
         case MessageType::Warning:
-            os << "\033[98;1;1;1mwarning\033[0m: ";
+            os << R"(\e[1;93mWarning\e[0m: )";
             break;
             
         case MessageType::Verbose:
@@ -72,37 +72,107 @@ std::ostream& operator<<(std::ostream& os, MessageType type) {
     return os;
 }
 
+/*
+ The decimalToBase24 function converts a given 
+ base 10 integer into its base 24 representation using a
+ specific set of characters. The character set is
+ comprised of the following 24 symbols:
+
+     •    Numbers: 2, 3, 4, 5, 6, 7, 8, 9
+     •    Letters: C, D, F, H, J, K, L, M, N, Q, R, U, V, W, X, Y
+     
+ Character Selection:
+ The choice of characters was made to avoid confusion
+ with common alphanumeric representations, ensuring
+ that each character is visually distinct and easily
+ recognizable. This set excludes characters that closely
+ resemble each other or numerical digits, promoting
+ clarity in representation.
+ */
+std::string decimalToBase24(int num) {
+    if (num == 0) {
+        return "C";
+    }
+
+    const std::string base24Chars = "23456789CDFHJKLMNQRUVWXY";
+    std::string base24;
+
+    while (num > 0) {
+        int remainder = num % 24;
+        base24 = base24Chars[remainder] + base24; // Prepend character
+        num /= 24; // Integer division
+    }
+
+    return base24;
+}
+
 void usage(void)
 {
     std::cout << "Copyright (C) 2024 Insoft. All rights reserved.\n";
-    std::cout << "Insoft ANSI Code Art Creator.\n\n";
-    std::cout << "Usage: bmp2ansi filename\n";
+    std::cout << "Insoft ANSI Code Art Generator.\n\n";
+    std::cout << "Usage: ansiart <input-file> [-o <output-file>] [-c <canvas-color>] [-t <transparency-color>]\n\n";
+    std::cout << "Options:\n";
+    std::cout << "  -o <output-file>        Specify the filename for generated ANSI art.\n";
+    std::cout << "  -c <canvas-color>       Set the canvas or background color.\n";
+    std::cout << "  -t <transparency-color> Set the transparency color.\n";
     std::cout << "\n";
-    std::cout << "Usage: bmp2ansi {-version | -help}\n";
+    std::cout << "Additional Commands:\n";
+    std::cout << "  ansiart {-version | -help}\n";
+    std::cout << "    -version              Display the version information.\n";
+    std::cout << "    -help                 Show this help message.\n";
 }
 
 void version(void) {
-    std::cout
-    << "ANSI Art Generator v"
-    << (unsigned)__BUILD_NUMBER / 100000 << "."
-    << (unsigned)__BUILD_NUMBER / 10000 % 10 << "."
-    << (unsigned)__BUILD_NUMBER / 1000 % 10 << "."
-    << std::setfill('0') << std::setw(3) << (unsigned)__BUILD_NUMBER % 1000
-    << "\n";
+    int major = BUILD_NUMBER / 100000;
+    int minor = BUILD_NUMBER / 10000 % 10;
+    int revision = BUILD_NUMBER / 1000 % 10;
+    
+    std::cout << "Insoft ANSI Code Art Generator, version "
+    << major << "."
+    << minor << "."
+    << revision
+    << " (Build " << decimalToBase24(BUILD_NUMBER) << ")\n";
+    
+    std::cout << "Copyright (C) 2024 Insoft. All rights reserved.\n";
+    std::cout << "Built on: " << CURRENT_DATE << "\n";
+    std::cout << "Licence: MIT License\n\n";
+    std::cout << "For mor information, visit: http://www.insoft.uk\n";
 }
 
 void error(void)
 {
-    std::cout << "bmp2ansi: try 'bmp2ansi -help' for more information\n";
+    std::cout << "ansiart: try 'ansiart -help' for more information\n";
     exit(0);
 }
 
 void info(void) {
-    std::cout << "Copyright (c) 2024 Insoft. All rights reserved\n";
-    int rev = (unsigned)__BUILD_NUMBER / 1000 % 10;
-    std::cout << "ANSI Art Creator v" << (unsigned)__BUILD_NUMBER / 100000 << "." << (unsigned)__BUILD_NUMBER / 10000 % 10 << (rev ? "." + std::to_string(rev) : "") << " BUILD " << std::setfill('0') << std::setw(3) << __BUILD_NUMBER % 1000 << "\n\n";
+    std::cout << "Copyright (c) 2024 Insoft. All rights reserved.\n";
+    int rev = BUILD_NUMBER / 1000 % 10;
+    std::cout << "ANSI Art Generator v" << BUILD_NUMBER / 100000 << "." << BUILD_NUMBER / 10000 % 10 << (rev ? "." + std::to_string(rev) : "") << " (Build " << decimalToBase24(BUILD_NUMBER) << ")\n\n";
 }
 
+bool fileExists(const std::string& filename) {
+    std::ofstream outfile;
+    outfile.open(filename, std::ios::in | std::ios::binary);
+    if(!outfile.is_open()) {
+        return false;
+    }
+    outfile.close();
+    return true;
+}
+
+std::string removeExtension(const std::string& filename) {
+    // Find the last dot in the string
+    size_t lastDotPosition = filename.find_last_of('.');
+
+    // If there is no dot, return the original string
+    if (lastDotPosition == std::string::npos) {
+        return filename;
+    }
+
+    // Return the substring from the beginning up to the last dot
+    return filename.substr(0, lastDotPosition);
+}
 
 int main(int argc, const char * argv[])
 {
@@ -111,7 +181,7 @@ int main(int argc, const char * argv[])
         return 0;
     }
     
-    std::string directory, name, out_filename, in_filename;
+    std::string out_filename, in_filename;
     ANSI ansi = ANSI();
     
     for( int n = 1; n < argc; n++ ) {
@@ -129,7 +199,6 @@ int main(int argc, const char * argv[])
                 ansi.setCanvasIndex(atoi(argv[n]));
                 continue;
             }
-            
             
             if (args == "-o") {
                 if (++n > argc) error();
@@ -153,30 +222,19 @@ int main(int argc, const char * argv[])
         in_filename = argv[n];
     }
     
-    
-    if (name.empty()) {
-        name = regex_replace(in_filename, std::regex(R"(\.\w+$)"), "");
-        size_t pos = name.rfind("/");
-        name = name.substr(pos + 1, name.length() - pos);
-    }
-    
-    
-    if (out_filename.empty()) {
-        size_t pos = in_filename.rfind(".bmp");
-        if (pos != std::string::npos) {
-            out_filename = in_filename.substr(0, pos) + ".sh";
-        } else {
-            directory = in_filename;
-            out_filename = directory + ".sh";
-        }
-    }
-    
     info();
     
+    if (!fileExists(in_filename)) {
+        std::cout << MessageType::Error << "File '" << in_filename << "' not found.\n";
+        return -1;
+    }
     
+    if (out_filename.empty()) {
+        out_filename = removeExtension(in_filename) + ".sh";
+    }
     
     if (ansi.loadImage(in_filename) != 0) {
-        std::cout << "File '" << in_filename << "' not found.\n";
+        std::cout << MessageType::Error << "Please provide a valid image file.\n";
         return -1;
     }
     

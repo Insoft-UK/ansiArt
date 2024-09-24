@@ -35,7 +35,9 @@
 
 class ANSI {
 public:
-    const uint8_t &transparencyIndex, &canvasIndex;
+    const uint8_t& transparencyIndex;
+    const uint8_t& canvasIndex;
+    
     ANSI() : transparencyIndex(_transparencyIndex), canvasIndex(_canvasIndex) {
     }
     
@@ -43,7 +45,7 @@ public:
         reset(_image);
     }
     
-    int loadImage(const std::string &filename);
+    int loadImage(const std::string& filename);
     std::string generateArt(void);
     
     void setTransparencyIndex(uint8_t newValue) {
@@ -54,7 +56,7 @@ public:
         _canvasIndex = newValue;
     }
 private:
-    TImage *_image;
+    TImage* _image;
     uint8_t _transparencyIndex = 201;
     uint8_t _canvasIndex = 201;
     

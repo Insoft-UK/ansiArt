@@ -26,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		130BEBC62CA1C48600E921B4 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		130BEBC72CA340F700E921B4 /* build.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = build.h; sourceTree = "<group>"; };
 		133669302BE82EA000484032 /* ansiart */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ansiart; sourceTree = BUILT_PRODUCTS_DIR; };
 		133669332BE82EA000484032 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1336693A2BE82F4200484032 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -78,6 +79,7 @@
 				133669332BE82EA000484032 /* main.cpp */,
 				133669412BE82F9100484032 /* image.hpp */,
 				1336693F2BE82F9100484032 /* image.cpp */,
+				130BEBC72CA340F700E921B4 /* build.h */,
 				133669402BE82F9100484032 /* build.txt */,
 			);
 			path = src;
@@ -170,7 +172,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Increment version number by 0.001, allowing 1000 builds before version number is increased.\nbuild=( $(cat src/build.txt) )\nbuild=$(($build+1))\necho $build > src/build.txt\necho \"unsigned __BUILD_NUMBER=$build;\" > src/build.h\n";
+			shellScript = "# Increment version number by 0.001, allowing 1000 builds before version number is increased.\nbuild=( $(cat src/build.txt) )\nbuild=$(($build+1))\ncurrent_date=$(date +\"%Y %B %d\")\necho $build > src/build.txt\necho \"#define BUILD_NUMBER $build\" > src/build.h\necho \"#define CURRENT_DATE \\\"$current_date\\\"\" >> src/build.h\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -27,7 +27,7 @@
 #include <array>
 #include <fstream>
 
-int ANSI::loadImage(const std::string &filename) {
+int ANSI::loadImage(const std::string& filename) {
     _image = loadBMPGraphicFile(filename);
     if (_image == nullptr) return -1;
     
