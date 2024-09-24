@@ -78,8 +78,8 @@ std::ostream& operator<<(std::ostream& os, MessageType type) {
  specific set of characters. The character set is
  comprised of the following 24 symbols:
 
-     •    Numbers: 2, 3, 4, 5, 6, 7, 8, 9
-     •    Letters: C, D, F, H, J, K, L, M, N, Q, R, U, V, W, X, Y
+     •    Numbers: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+     •    Letters: C, D, F, H, J, K, M, N, R, U, V, W, X, Y
      
  Character Selection:
  The choice of characters was made to avoid confusion
@@ -94,7 +94,7 @@ std::string decimalToBase24(int num) {
         return "C";
     }
 
-    const std::string base24Chars = "23456789CDFHJKLMNQRUVWXY";
+    const std::string base24Chars = "0123456789CDFHJKMNRUVWXY";
     std::string base24;
 
     while (num > 0) {
