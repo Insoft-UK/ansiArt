@@ -65,6 +65,10 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "$(PROJECT_DIR)/examples/256image.bmp"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-o $(PROJECT_DIR)/examples/image"
             isEnabled = "NO">
          </CommandLineArgument>

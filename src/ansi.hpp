@@ -35,31 +35,26 @@
 
 class ANSI {
 public:
-    const bool &echo;
-    
-    ANSI(const std::string &filename) : echo(_echo)
-    {
-        _image = loadBMPGraphicFile(filename);
-        if (_image == nullptr) return;
-        
-        convertPixmapTo8BitPixmapNoCopy(_image);
-        
-        if (_image->width > 80 || _image->height > 24) {
-            reset(_image);
-            return;
-        }
+    const uint8_t &transparencyIndex;
+    ANSI() : transparencyIndex(_transparencyIndex) {
     }
+    
     ~ANSI() {
         reset(_image);
     }
-    int createBashFile(const std::string &filename);
-    void setEcho(bool newValue) {
-        _echo = newValue;
-    }
     
+    int loadImage(const std::string &filename);
+    std::string generateArt(void);
+    
+    void setTransparencyIndex(uint8_t newValue) {
+        _transparencyIndex = newValue;
+    }
 private:
-    bool _echo = false;
     TImage *_image;
+    uint8_t _transparencyIndex = 201;
+    
+    std::string generateColorArt(void);
+    std::string generate256ColorArt(void);
 };
 
 #endif /* ANSI_HPP */

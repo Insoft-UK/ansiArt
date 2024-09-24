@@ -27,46 +27,79 @@
 #include <array>
 #include <fstream>
 
-
-static std::array<std::string, 16> ansiBackgroundColors = {
-    ";40", ";41", ";42", ";43", ";44", ";45", ";46", ";47",
-    ";100", ";101", ";102", ";103", ";104", ";105", ";106", ";107"
-};
-
-int ANSI::createBashFile(const std::string &filename) {
+int ANSI::loadImage(const std::string &filename) {
+    _image = loadBMPGraphicFile(filename);
     if (_image == nullptr) return -1;
     
-    std::ofstream outfile;
-    outfile.open(filename, std::ios::out | std::ios::binary);
-    if(!outfile.is_open()) {
-        return -1;
-    }
-    
-    std::string str;
-    uint8_t *pixel = _image->data;
-    int color;
-    
-    for (int y=0; y<_image->height; y++) {
-        str += R"(printf ")";
-        
-        for (int x=0; x<_image->width; x++) {
-            std::ostringstream os;
-            
-            os << "\\e[0";
-            
-            color = pixel[x + y * _image->width];
-            os << ansiBackgroundColors[color];
-            
-            os << "m ";
-            str.append(os.str());
-        }
-        
-        str += R"(\e[0;m\n")";
-        str += '\n';
-    }
-    
-    outfile.write(str.c_str(), str.length());
-    outfile.close();
     return 0;
+}
+
+std::string ANSI::generateArt(void) {
+    std::string art;
+    
+    if (_image->bitWidth == 8) art = generate256ColorArt();
+    if (_image->bitWidth == 4) art = generateColorArt();
+    
+    return art;
+}
+
+std::string ANSI::generateColorArt(void) {
+    std::string art;
+    uint8_t *pixel = (uint8_t *)_image->data;
+    uint8_t color;
+    
+    union {
+        struct {
+            uint8_t l: 4;
+            uint8_t h: 4;
+        };
+        uint8_t v;
+    } byte;
+    
+    art = "ANSI_ART=$(cat <<EOF\n";
+    for (auto y = 0; y < _image->height; y++) {
+        for (auto x = 0; x < _image->width; x+=2) {
+            byte.v = *pixel++;
+            color = byte.h;
+            color += (color < 8) ? 40 : 92;
+            art.append(R"(\e[0;)");
+            art.append(std::to_string(color));
+            art.append("m ");
+            
+            color = byte.l;
+            color += (color < 8) ? 40 : 92;
+            art.append(R"(\e[0;)");
+            art.append(std::to_string(color));
+            art.append("m ");
+        }
+        art.append(R"(\e[0;m)");
+        art.append("\n");
+    }
+    art += "EOF\n)\n";
+    return art;
+}
+
+std::string ANSI::generate256ColorArt(void) {
+    std::string art;
+    uint8_t *pixel = (uint8_t *)_image->data;
+    uint8_t color;
+    
+    art = "ANSI_ART=$(cat <<EOF\n";
+    for (auto y = 0; y < _image->height; y++) {
+        for (auto x = 0; x < _image->width; x++) {
+            color = *pixel++;
+            if (transparencyIndex == color) {
+                art.append(R"(\e[0;)");
+            } else {
+                art.append(R"(\e[48;5;)");
+                art.append(std::to_string(color));
+            }
+            art.append("m ");
+        }
+        art.append(R"(\e[0;m)");
+        art.append("\n");
+    }
+    art += "EOF\n)\n";
+    return art;
 }
 

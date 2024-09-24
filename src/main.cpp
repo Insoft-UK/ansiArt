@@ -98,7 +98,7 @@ void error(void)
 }
 
 void info(void) {
-    std::cout << "Copyright (c) 2023-2024 Insoft. All rights reserved\n";
+    std::cout << "Copyright (c) 2024 Insoft. All rights reserved\n";
     int rev = (unsigned)__BUILD_NUMBER / 1000 % 10;
     std::cout << "ANSI Art Creator v" << (unsigned)__BUILD_NUMBER / 100000 << "." << (unsigned)__BUILD_NUMBER / 10000 % 10 << (rev ? "." + std::to_string(rev) : "") << " BUILD " << std::setfill('0') << std::setw(3) << __BUILD_NUMBER % 1000 << "\n\n";
 }
@@ -161,21 +161,34 @@ int main(int argc, const char * argv[])
     
     info();
     
+    ANSI ansi = ANSI();
+    
+    if (ansi.loadImage(in_filename) != 0) {
+        std::cout << "File '" << in_filename << "' not found.\n";
+        return -1;
+    }
+    
     // Start measuring time
     struct timespec start, end;
     clock_gettime(CLOCK_MONOTONIC, &start);
     
-    ANSI ansi = ANSI(in_filename);
+    std::string art = ansi.generateArt();
     
-    if (ansi.createBashFile(out_filename) == 0) {
-        // Display elasps time in secononds.
-        double delta_us = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
-        printf("Completed in %.3f seconds.\n", delta_us * 1e-6);
-        std::cout << "UTF-8 File '" << out_filename << "' Succefuly Created.\n";
-        return 0;
+    std::ofstream outfile;
+    outfile.open(out_filename, std::ios::out | std::ios::binary);
+    if(!outfile.is_open()) {
+        std::cout << "UTF-8 File '" << out_filename << "' Failed.\n";
+        return -1;
     }
     
-    std::cout << "UTF-8 File '" << out_filename << "' Failed.\n";
-    return -1;
+    outfile.write(art.c_str(), art.length());
+    outfile.close();
+    
+    // Display elasps time in secononds.
+    double delta_us = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
+    printf("Completed in %.3f seconds.\n", delta_us * 1e-6);
+    std::cout << "UTF-8 File '" << out_filename << "' Succefuly Created.\n";
+    
+    return 0;
 }
 

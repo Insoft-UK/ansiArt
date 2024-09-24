@@ -55,8 +55,9 @@ typedef struct __attribute__((__packed__)) {
 static void flipImageVertically(const TImage *image)
 {
     uint8_t *byte = (uint8_t *)image->data;
-    int w = (int)image->width;
+    int w = (int)image->width / (8 / image->bitWidth);
     int h = (int)image->height;
+    
     for (int row = 0; row < h / 2; ++row)
         for (int col = 0; col < w; ++col)
             std::swap(byte[col + row * w], byte[col + (h - 1 - row) * w]);
@@ -98,19 +99,19 @@ TImage *loadBMPGraphicFile(const std::string &filename)
     
     image->width = abs(bip_header.biWidth);
     image->height = abs(bip_header.biHeight);
-    size_t row_size = image->width / (8 / bip_header.biBitCount);
+    size_t length = image->width / (8 / bip_header.biBitCount);
     
-    infile.seekg(bip_header.biClrUsed * 4, std::ios_base::cur);
+    infile.seekg(bip_header.fileHeader.bfOffBits, std::ios_base::beg);
     for (int r = 0; r < image->height; ++r) {
-        infile.read((char *)&image->data[row_size * r], row_size);
-        if (infile.gcount() != row_size) {
+        infile.read((char *)&image->data[length * r], length);
+        if (infile.gcount() != length) {
             std::cout << filename << " Read failed!\n";
             break;
         }
         
         // Deal with any padding if nessasary.
-        if (row_size % 4)
-            infile.seekg(4 - row_size % 4, std::ios_base::cur);
+        if (length % 6)
+            infile.seekg(length % 6, std::ios_base::cur);
     }
     
     infile.close();
