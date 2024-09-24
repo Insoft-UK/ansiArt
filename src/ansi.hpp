@@ -35,8 +35,8 @@
 
 class ANSI {
 public:
-    const uint8_t &transparencyIndex;
-    ANSI() : transparencyIndex(_transparencyIndex) {
+    const uint8_t &transparencyIndex, &canvasIndex;
+    ANSI() : transparencyIndex(_transparencyIndex), canvasIndex(_canvasIndex) {
     }
     
     ~ANSI() {
@@ -49,12 +49,18 @@ public:
     void setTransparencyIndex(uint8_t newValue) {
         _transparencyIndex = newValue;
     }
+    
+    void setCanvasIndex(uint8_t newValue) {
+        _canvasIndex = newValue;
+    }
 private:
     TImage *_image;
     uint8_t _transparencyIndex = 201;
+    uint8_t _canvasIndex = 201;
     
     std::string generateColorArt(void);
     std::string generate256ColorArt(void);
+    std::string canvasColor(void);
 };
 
 #endif /* ANSI_HPP */

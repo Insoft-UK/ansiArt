@@ -72,7 +72,7 @@ std::string ANSI::generateColorArt(void) {
             art.append(std::to_string(color));
             art.append("m ");
         }
-        art.append(R"(\e[0;m)");
+        art.append(canvasColor());
         art.append("\n");
     }
     art += "EOF\n)\n";
@@ -89,17 +89,28 @@ std::string ANSI::generate256ColorArt(void) {
         for (auto x = 0; x < _image->width; x++) {
             color = *pixel++;
             if (transparencyIndex == color) {
-                art.append(R"(\e[0;)");
+                art.append(canvasColor() + " ");
             } else {
                 art.append(R"(\e[48;5;)");
                 art.append(std::to_string(color));
+                art.append("m ");
             }
-            art.append("m ");
         }
-        art.append(R"(\e[0;m)");
+        art.append(canvasColor());
         art.append("\n");
     }
     art += "EOF\n)\n";
     return art;
 }
 
+std::string ANSI::canvasColor(void) {
+    std::string str;
+    
+    if (_canvasIndex == _transparencyIndex) return R"(\e[0;m)";
+    
+    str = R"(\e[48;5;)";
+    str.append(std::to_string(_canvasIndex));
+    str.append("m");
+    
+    return str;
+}

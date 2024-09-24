@@ -112,11 +112,23 @@ int main(int argc, const char * argv[])
     }
     
     std::string directory, name, out_filename, in_filename;
-   
+    ANSI ansi = ANSI();
     
     for( int n = 1; n < argc; n++ ) {
         if (*argv[n] == '-') {
             std::string args(argv[n]);
+            
+            if (args == "-t") {
+                if (++n > argc) error();
+                ansi.setTransparencyIndex(atoi(argv[n]));
+                continue;
+            }
+            
+            if (args == "-c") {
+                if (++n > argc) error();
+                ansi.setCanvasIndex(atoi(argv[n]));
+                continue;
+            }
             
             
             if (args == "-o") {
@@ -161,7 +173,7 @@ int main(int argc, const char * argv[])
     
     info();
     
-    ANSI ansi = ANSI();
+    
     
     if (ansi.loadImage(in_filename) != 0) {
         std::cout << "File '" << in_filename << "' not found.\n";
