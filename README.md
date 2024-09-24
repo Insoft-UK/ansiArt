@@ -1,4 +1,4 @@
-# ANSI Art Cenerator
+# ANSI Art Generator
  
 Similar to ASCII art, but utilizing ANSI escape codes to incorporate text color changes, creating what is known as ANSI Art.
 This utility is for generating ANSI art code from an image file for use with the **terminal**.
