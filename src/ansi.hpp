@@ -27,18 +27,17 @@
 
 #include <stdio.h>
 #include <stdint.h>
-
 #include <string>
-#include <vector>
 
 #include "image.hpp"
 
 class ANSI {
 public:
-    const uint8_t& transparencyIndex;
-    const uint8_t& canvasIndex;
+    bool horizontalDoubleWidth = false;
+    uint8_t transparencyIndex = 201;
+    const std::string& variableName;
     
-    ANSI() : transparencyIndex(_transparencyIndex), canvasIndex(_canvasIndex) {
+    ANSI() : variableName(_variableName) {
     }
     
     ~ANSI() {
@@ -46,23 +45,19 @@ public:
     }
     
     int loadImage(const std::string& filename);
-    std::string generateArt(void);
+    std::string getColorImageArt(void);
     
-    void setTransparencyIndex(uint8_t newValue) {
-        _transparencyIndex = newValue;
+    void setName(const std::string newVariableName) {
+        if (newVariableName.empty()) return;
+        _variableName = newVariableName;
     }
     
-    void setCanvasIndex(uint8_t newValue) {
-        _canvasIndex = newValue;
-    }
 private:
     TImage* _image;
-    uint8_t _transparencyIndex = 201;
-    uint8_t _canvasIndex = 201;
+    std::string _variableName = "ANSI_ART";
     
-    std::string generateColorArt(void);
-    std::string generate256ColorArt(void);
-    std::string canvasColor(void);
+    std::string generateColorImageArt(void);
+    std::string getBackgroundColorCode(const int num);
 };
 
 #endif /* ANSI_HPP */

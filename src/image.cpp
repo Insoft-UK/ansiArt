@@ -318,9 +318,12 @@ void convertPixmapTo8BitPixmapNoCopy(TImage *pixmap)
     if (pixmap->bitWidth != 4 && pixmap->bitWidth != 2)
         return;
     
-    uint8_t *dest = (uint8_t *)malloc(pixmap->width * pixmap->height);
-    if (!dest)
+    uint8_t* new_data = (uint8_t *)malloc(pixmap->width * pixmap->height);
+    if (new_data == nullptr)
         return;
+    
+    uint8_t* dest = new_data;
+    
     uint8_t *src = (uint8_t *)pixmap->data;
     
     int length = pixmap->width * pixmap->height;
@@ -340,7 +343,7 @@ void convertPixmapTo8BitPixmapNoCopy(TImage *pixmap)
     }
     
     free(pixmap->data);
-    pixmap->data = dest;
+    pixmap->data = new_data;
     pixmap->bitWidth = 8;
 }
 

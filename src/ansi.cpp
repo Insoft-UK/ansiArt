@@ -31,85 +31,61 @@ int ANSI::loadImage(const std::string& filename) {
     _image = loadBMPGraphicFile(filename);
     if (_image == nullptr) return -1;
     
+    if (_image->bitWidth == 4) {
+        convertPixmapTo8BitPixmapNoCopy(_image);
+    }
+    
     return 0;
 }
 
-std::string ANSI::generateArt(void) {
+std::string ANSI::getColorImageArt(void) {
     std::string art;
     
-    if (_image->bitWidth == 8) art = generate256ColorArt();
-    if (_image->bitWidth == 4) art = generateColorArt();
+    art = generateColorImageArt();
     
     return art;
 }
 
-std::string ANSI::generateColorArt(void) {
-    std::string art;
+std::string ANSI::generateColorImageArt(void) {
+    std::string art, code;
     uint8_t *pixel = (uint8_t *)_image->data;
     uint8_t color;
     
-    union {
-        struct {
-            uint8_t l: 4;
-            uint8_t h: 4;
-        };
-        uint8_t v;
-    } byte;
+    int prevColor = -1;
     
-    art = "ANSI_ART=$(cat <<EOF\n";
-    for (auto y = 0; y < _image->height; y++) {
-        for (auto x = 0; x < _image->width; x+=2) {
-            byte.v = *pixel++;
-            color = byte.h;
-            color += (color < 8) ? 40 : 92;
-            art.append(R"(\e[0;)");
-            art.append(std::to_string(color));
-            art.append("m ");
-            
-            color = byte.l;
-            color += (color < 8) ? 40 : 92;
-            art.append(R"(\e[0;)");
-            art.append(std::to_string(color));
-            art.append("m ");
-        }
-        art.append(canvasColor());
-        art.append("\n");
-    }
-    art += "EOF\n)\n";
-    return art;
-}
-
-std::string ANSI::generate256ColorArt(void) {
-    std::string art;
-    uint8_t *pixel = (uint8_t *)_image->data;
-    uint8_t color;
-    
-    art = "ANSI_ART=$(cat <<EOF\n";
+    art = _variableName + "=$(cat <<EOF\n";
     for (auto y = 0; y < _image->height; y++) {
         for (auto x = 0; x < _image->width; x++) {
             color = *pixel++;
-            if (transparencyIndex == color) {
-                art.append(canvasColor() + " ");
-            } else {
-                art.append(R"(\e[48;5;)");
-                art.append(std::to_string(color));
-                art.append("m ");
-            }
+            if (prevColor != color)
+                art.append(getBackgroundColorCode(color));
+            art.append(" ");
+            if (horizontalDoubleWidth) art.append(" ");
+            prevColor = color;
         }
-        art.append(canvasColor());
+        if (prevColor == transparencyIndex)
+            art.append(getBackgroundColorCode(transparencyIndex));
         art.append("\n");
     }
     art += "EOF\n)\n";
     return art;
 }
 
-std::string ANSI::canvasColor(void) {
+
+std::string ANSI::getBackgroundColorCode(const int num) {
     std::string str;
     
-    if (_canvasIndex == _transparencyIndex) return R"(\e[0;m)";
+    if (num == transparencyIndex) return R"(\e[0;m)";
     
-    str = R"(\e[48;5;)";
-    str.append(std::to_string(_canvasIndex));
+    if (num < 16){
+        str.append(R"(\e[0;)");
+        str.append(std::to_string((num < 8) ? num + 40 : num + 92));
+    }
+    else {
+        str = R"(\e[48;5;)";
+        str.append(std::to_string(num));
+    }
+    
     str.append("m");
     
     return str;

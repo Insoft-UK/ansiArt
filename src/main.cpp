@@ -22,20 +22,10 @@
  SOFTWARE.
  */
 
-
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <regex>
-#include <fstream>
-#include <iomanip>
-
 #include <stdio.h>
-#include <stdlib.h>
-#include <dirent.h>
-#include <string.h>
-#include <wchar.h>
-#include <locale.h>
+#include <stdint.h>
+#include <string>
+#include <fstream>
 
 #include "ansi.hpp"
 #include "image.hpp"
@@ -89,7 +79,7 @@ std::ostream& operator<<(std::ostream& os, MessageType type) {
  resemble each other or numerical digits, promoting
  clarity in representation.
  */
-std::string decimalToBase24(int num) {
+static std::string decimalToBase24(int num) {
     if (num == 0) {
         return "C";
     }
@@ -106,15 +96,26 @@ std::string decimalToBase24(int num) {
     return base24;
 }
 
-void usage(void)
+static std::string getBuildCode(void) {
+    std::string str;
+    int majorVersionNumber = BUILD_NUMBER / 100000;
+    str = std::to_string(majorVersionNumber) + decimalToBase24(BUILD_NUMBER - majorVersionNumber * 100000);
+    return str;
+}
+
+void help(void)
 {
+    int rev = BUILD_NUMBER / 1000 % 10;
+    
     std::cout << "Copyright (C) 2024 Insoft. All rights reserved.\n";
-    std::cout << "Insoft ANSI Code Art Generator.\n\n";
-    std::cout << "Usage: ansiart <input-file> [-o <output-file>] [-c <canvas-color>] [-t <transparency-color>]\n\n";
+    std::cout << "Insoft ANSI Code Art Generator version " << BUILD_NUMBER / 100000 << "." << BUILD_NUMBER / 10000 % 10 << (rev ? "." + std::to_string(rev) : "")
+    << " (BUILD " << getBuildCode() << "-" << decimalToBase24(BUILD_DATE) << ")\n\n";
+    std::cout << "Usage: ansiart <input-file> [-o <output-file>] [-c <canvas-color>] [-t <transparency-color>] [-x2]\n\n";
     std::cout << "Options:\n";
-    std::cout << "  -o <output-file>        Specify the filename for generated ANSI art.\n";
-    std::cout << "  -c <canvas-color>       Set the canvas or background color.\n";
-    std::cout << "  -t <transparency-color> Set the transparency color.\n";
+    std::cout << "  -o  <output-file>        Specify the filename for generated ANSI art.\n";
+    std::cout << "  -t  <transparency-color> Set the transparency color.\n";
+    std::cout << "  -x2                      Sets horizontal double width mode, which causes each horizontal unit in\n"
+              << "                           the output to be doubled in size..\n";
     std::cout << "\n";
     std::cout << "Additional Commands:\n";
     std::cout << "  ansiart {-version | -help}\n";
@@ -131,10 +132,10 @@ void version(void) {
     << major << "."
     << minor << "."
     << revision
-    << " (Build " << decimalToBase24(BUILD_NUMBER) << ")\n";
+    << " (Build " << getBuildCode() << ")\n";
     
     std::cout << "Copyright (C) 2024 Insoft. All rights reserved.\n";
-    std::cout << "Built on: " << CURRENT_DATE << "\n";
+    std::cout << "Built on: " << BUILT_DATE << "\n";
     std::cout << "Licence: MIT License\n\n";
     std::cout << "For mor information, visit: http://www.insoft.uk\n";
 }
@@ -148,7 +149,8 @@ void error(void)
 void info(void) {
     std::cout << "Copyright (c) 2024 Insoft. All rights reserved.\n";
     int rev = BUILD_NUMBER / 1000 % 10;
-    std::cout << "ANSI Art Generator v" << BUILD_NUMBER / 100000 << "." << BUILD_NUMBER / 10000 % 10 << (rev ? "." + std::to_string(rev) : "") << " (Build " << decimalToBase24(BUILD_NUMBER) << ")\n\n";
+    std::cout << "ANSI Art Generator version " << BUILD_NUMBER / 100000 << "." << BUILD_NUMBER / 10000 % 10 << (rev ? "." + std::to_string(rev) : "")
+    << " (BUILD " << getBuildCode() << "-" << decimalToBase24(BUILD_DATE) << ")\n\n";
 }
 
 bool fileExists(const std::string& filename) {
@@ -190,13 +192,12 @@ int main(int argc, const char * argv[])
             
             if (args == "-t") {
                 if (++n > argc) error();
-                ansi.setTransparencyIndex(atoi(argv[n]));
+                ansi.transparencyIndex = atoi(argv[n]);
                 continue;
             }
             
-            if (args == "-c") {
-                if (++n > argc) error();
-                ansi.setCanvasIndex(atoi(argv[n]));
+            if (args == "-x2") {
+                ansi.horizontalDoubleWidth = true;
                 continue;
             }
             
@@ -206,8 +207,14 @@ int main(int argc, const char * argv[])
                 continue;
             }
             
+            if (args == "-n") {
+                if (++n > argc) error();
+                ansi.setName(argv[n]);
+                continue;
+            }
+            
             if (args == "-help") {
-                usage();
+                help();
                 return 0;
             }
             
@@ -238,11 +245,8 @@ int main(int argc, const char * argv[])
         return -1;
     }
     
-    // Start measuring time
-    struct timespec start, end;
-    clock_gettime(CLOCK_MONOTONIC, &start);
     
-    std::string art = ansi.generateArt();
+    std::string art = ansi.getColorImageArt();
     
     std::ofstream outfile;
     outfile.open(out_filename, std::ios::out | std::ios::binary);
@@ -254,9 +258,7 @@ int main(int argc, const char * argv[])
     outfile.write(art.c_str(), art.length());
     outfile.close();
     
-    // Display elasps time in secononds.
-    double delta_us = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
-    printf("Completed in %.3f seconds.\n", delta_us * 1e-6);
+    std::cout << "ANSI Image Art Generated!\n";
     std::cout << "UTF-8 File '" << out_filename << "' Succefuly Created.\n";
     
     return 0;
