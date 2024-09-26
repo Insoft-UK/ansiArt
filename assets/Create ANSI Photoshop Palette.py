@@ -24,7 +24,7 @@ def color_palette_256():
     return colors
 
 def dump_to_hex(colors):
-    with open('256ANSI.act', 'wb') as f:
+    with open('ANSI.act', 'wb') as f:
         for color in colors:
             # Pack each color into bytes and write to the file as raw bytes
             f.write(bytes(color))
