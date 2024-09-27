@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 DIR=$(dirname "$0")
 printf '\e[1;40;92m'
 clear
@@ -21,7 +21,7 @@ echo "Archiving File... Please Wait!"
 zip_file="$xcodeproj_name.zip"
 rm $zip_file
 
-zip $zip_file bin/* -r -x "*/.DS_Store"
+zip $zip_file bin/macos/* -r -x "*/.DS_Store"
 
 # Close the Terminal window
 osascript -e 'tell application "Terminal" to close window 1' & exit

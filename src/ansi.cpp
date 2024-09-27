@@ -63,9 +63,9 @@ std::string ANSI::generateColorImageArt(void) {
             if (horizontalDoubleWidth) art.append(" ");
             prevColor = color;
         }
-        if (prevColor == transparencyIndex)
-            art.append(getBackgroundColorCode(transparencyIndex));
+        art.append(getBackgroundColorCode(transparencyIndex));
         art.append("\n");
+        prevColor = -1;
     }
     art += "EOF\n)\n";
     return art;
@@ -78,11 +78,11 @@ std::string ANSI::getBackgroundColorCode(const int num) {
     if (num == transparencyIndex) return R"(\e[0;m)";
     
     if (num < 16){
-        str.append(R"(\e[0;)");
+        str = std::string(R"(\e[0;)");
         str.append(std::to_string((num < 8) ? num + 40 : num + 92));
     }
     else {
-        str = R"(\e[48;5;)";
+        str = std::string(R"(\e[48;5;)");
         str.append(std::to_string(num));
     }
     

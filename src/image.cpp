@@ -25,6 +25,7 @@
 #include "image.hpp"
 
 #include <fstream>
+#include <cstring>
 
 /* Windows 3.x bitmap file header */
 typedef struct __attribute__((__packed__)) {

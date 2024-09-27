@@ -61,11 +61,15 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "$(PROJECT_DIR)/examples/image.bmp"
-            isEnabled = "YES">
+            argument = "$(PROJECT_DIR)/examples/P+.bmp  -x2 -t 13"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "$(PROJECT_DIR)/examples/256image.bmp"
+            argument = "$(PROJECT_DIR)/examples/4-Bit\ Image.bmp"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "$(PROJECT_DIR)/examples/8-Bit\ Image.bmp"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
@@ -73,12 +77,12 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "$(PROJECT_DIR)/examples/intel.bmp -x2"
+            argument = "$(PROJECT_DIR)/examples/zig.bmp -x2 -t 0"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "$(PROJECT_DIR)/examples/apple.bmp -x2"
-            isEnabled = "NO">
+            argument = "$(PROJECT_DIR)/examples/intel.bmp -x2"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "$(PROJECT_DIR)/examples/256ANSI.bmp -x2 -t 0"
