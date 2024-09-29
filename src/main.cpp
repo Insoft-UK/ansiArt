@@ -112,32 +112,24 @@ void help(void)
     << " (BUILD " << getBuildCode() << "-" << decimalToBase24(BUILD_DATE) << ")\n\n";
     std::cout << "Usage: ansiart <input-file> [-o <output-file>] [-c <canvas-color>] [-t <transparency-color>] [-x2]\n\n";
     std::cout << "Options:\n";
-    std::cout << "  -o  <output-file>        Specify the filename for generated ANSI art.\n";
-    std::cout << "  -t  <transparency-color> Set the transparency color.\n";
-    std::cout << "  -x2                      Sets horizontal double width mode, which causes each horizontal unit in\n"
-              << "                           the output to be doubled in size..\n";
+    std::cout << "    -o  <output-file>        Specify the filename for generated ANSI art.\n";
+    std::cout << "    -t  <transparency-color> Set the transparency color.\n";
+    std::cout << "    -x2                      Sets horizontal double width mode, which causes each horizontal unit in\n"
+              << "                             the output to be doubled in size..\n";
     std::cout << "\n";
     std::cout << "Additional Commands:\n";
     std::cout << "  ansiart {-version | -help}\n";
-    std::cout << "    -version              Display the version information.\n";
-    std::cout << "    -help                 Show this help message.\n";
+    std::cout << "    -version                 Display the version information.\n";
+    std::cout << "    -help                    Show this help message.\n";
 }
 
 void version(void) {
-    int major = BUILD_NUMBER / 100000;
-    int minor = BUILD_NUMBER / 10000 % 10;
-    int revision = BUILD_NUMBER / 1000 % 10;
-    
-    std::cout << "Insoft ANSI Code Art Generator, version "
-    << major << "."
-    << minor << "."
-    << revision
-    << " (Build " << getBuildCode() << ")\n";
-    
     std::cout << "Copyright (C) 2024 Insoft. All rights reserved.\n";
-    std::cout << "Built on: " << BUILT_DATE << "\n";
+    std::cout << "Insoft ANSI Code Art Generator version, " << BUILD_NUMBER / 100000 << "." << BUILD_NUMBER / 10000 % 10 << "." << BUILD_NUMBER / 1000 % 10
+    << " (BUILD " << getBuildCode() << ")\n";
+    std::cout << "Built on: " << CURRENT_DATE << "\n";
     std::cout << "Licence: MIT License\n\n";
-    std::cout << "For mor information, visit: http://www.insoft.uk\n";
+    std::cout << "For more information, visit: http://www.insoft.uk\n";
 }
 
 void error(void)
@@ -149,7 +141,7 @@ void error(void)
 void info(void) {
     std::cout << "Copyright (c) 2024 Insoft. All rights reserved.\n";
     int rev = BUILD_NUMBER / 1000 % 10;
-    std::cout << "ANSI Art Generator version " << BUILD_NUMBER / 100000 << "." << BUILD_NUMBER / 10000 % 10 << (rev ? "." + std::to_string(rev) : "")
+    std::cout << "ANSI Art Generator version, " << BUILD_NUMBER / 100000 << "." << BUILD_NUMBER / 10000 % 10 << (rev ? "." + std::to_string(rev) : "")
     << " (BUILD " << getBuildCode() << "-" << decimalToBase24(BUILD_DATE) << ")\n\n";
 }
 
