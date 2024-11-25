@@ -1,3 +1,5 @@
+<img src="../../../Insoft-UK/blob/main/assets/logo.svg" width="80" height="80" />
+
 # ANSI Art Generator
 
 Similar to ASCII art, but utilizing ANSI escape codes to incorporate text color changes, creating what is known as ANSI Art.
