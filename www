@@ -20,9 +20,9 @@ fi
 echo "WWW"
 
 www=/usr/local/var/www
-cp macos.zip $www/downloads/macos/hp/$xcodeproj_name.zip
-cp linux.zip $www/downloads/linux/hp/$xcodeproj_name.zip
-cp windows.zip $www/downloads/pc/hp/$xcodeproj_name.zip
+cp macos.zip $www/downloads/macos/$xcodeproj_name.zip
+cp linux.zip $www/downloads/linux/$xcodeproj_name.zip
+cp windows.zip $www/downloads/pc/$xcodeproj_name.zip
 
 # Ask the user a question
 result=$(osascript -e 'display dialog "Do you want upload the build info?" buttons {"Yes", "No"} default button "Yes"')
