@@ -26,14 +26,13 @@
 
 /* Begin PBXFileReference section */
 		130BEBC62CA1C48600E921B4 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
-		130BEBC72CA340F700E921B4 /* build.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = build.h; sourceTree = "<group>"; };
 		133669302BE82EA000484032 /* ansiart */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ansiart; sourceTree = BUILT_PRODUCTS_DIR; };
 		133669332BE82EA000484032 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1336693A2BE82F4200484032 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1336693B2BE82F4D00484032 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		1336693F2BE82F9100484032 /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
-		133669402BE82F9100484032 /* build.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build.txt; sourceTree = "<group>"; };
 		133669412BE82F9100484032 /* image.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = image.hpp; sourceTree = "<group>"; };
+		13873C842E8EFBF100083634 /* version_code.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version_code.h; sourceTree = SOURCE_ROOT; };
 		138F54E22CA0E72B009357F9 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		138F54E32CA0E7B3009357F9 /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = examples; sourceTree = "<group>"; };
 		13EE0F6E2BEEA8A5000FF54A /* ansi.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ansi.cpp; sourceTree = "<group>"; };
@@ -79,8 +78,7 @@
 				133669332BE82EA000484032 /* main.cpp */,
 				133669412BE82F9100484032 /* image.hpp */,
 				1336693F2BE82F9100484032 /* image.cpp */,
-				130BEBC72CA340F700E921B4 /* build.h */,
-				133669402BE82F9100484032 /* build.txt */,
+				13873C842E8EFBF100083634 /* version_code.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -130,7 +128,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					1336692F2BE82EA000484032 = {
 						CreatedOnToolsVersion = 15.3;
@@ -249,6 +247,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Debug;
 		};
@@ -304,16 +303,19 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Release;
 		};
 		133669382BE82EA000484032 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu23;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -322,10 +324,12 @@
 		133669392BE82EA000484032 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu23;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
