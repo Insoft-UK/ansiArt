@@ -1,4 +1,5 @@
 <img src="https://raw.githubusercontent.com/Insoft-UK/Insoft-UK/main/assets/silhouette-logo.svg" style="width: 128px" />
+
 # ANSI Art Generator
 
 Similar to ASCII art, but utilizing ANSI escape codes to incorporate text color changes, creating what is known as ANSI Art.
