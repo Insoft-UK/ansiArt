@@ -3,6 +3,6 @@ xcuserdata/
 .DS_Store
 *.sh
 *.psd
-bin/*
+build/*
 *.zip
 www
