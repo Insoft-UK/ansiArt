@@ -73,8 +73,8 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "$(PROJECT_DIR)/examples/insoft.bmp -x2 -t 0 -e"
-            isEnabled = "YES">
+            argument = "$(PROJECT_DIR)/examples/insoft.bmp -x2 -t 0"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "$(PROJECT_DIR)/examples/zig.bmp -x2 -t 0"
@@ -95,6 +95,10 @@
          <CommandLineArgument
             argument = "$(PROJECT_DIR)/examples/apple_logo.bmp -x2 -t 232"
             isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "$(PROJECT_DIR)/examples/england.bmp -e"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "debug"

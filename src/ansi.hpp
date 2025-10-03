@@ -31,11 +31,18 @@
 
 class ANSI {
 public:
+    static enum {
+        ansi, emoji, ascii
+    } mode_t;
+    
+    ::mode_t mode;
+    
     bool horizontalDoubleWidth = false;
     uint8_t transparencyIndex = 201;
     const std::string& variableName;
     
     ANSI() : variableName(_variableName) {
+        mode = ansi;
     }
     
     ~ANSI() {

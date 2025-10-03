@@ -114,7 +114,8 @@ void help(void) {
     << "  -t <transparency-color> Set the transparency color. (ignored in emoji mode)\n"
     << "  -x2                     Sets horizontal double width mode, which causes each horizontal unit in\n"
     << "                          the output to be doubled in size..\n"
-    << "  -e                      Use Emoji color blocks.\n"
+    << "  -m <ansi|emoji|ascii>   Select the mode ANSI, Emoji or ASCII.\n"
+    << "  -n <name>               "
     << "\n"
     << "Additional Commands:\n"
     << "  " << COMMAND_NAME << " {--version | --help }\n"
@@ -135,14 +136,17 @@ int main(int argc, const char * argv[])
     std::string out_filename, in_filename;
     ANSI ansi = ANSI();
     
-    bool emoji = false;
     
     for( int n = 1; n < argc; n++ ) {
         if (*argv[n] == '-') {
             std::string args(argv[n]);
             
-            if (args == "-e") {
-                emoji = true;
+            if (args == "-m") {
+                if (++n > argc) error();
+                args = argv[n];
+                if (args == "emoji") ansi.mode = ANSI::emoji;
+                if (args == "ascii") ansi.mode = ANSI::ascii;
+                if (args == "ansi") ansi.mode = ANSI::ansi;
                 continue;
             }
             
@@ -205,10 +209,14 @@ int main(int argc, const char * argv[])
     
     std::string art;
     
-    if (emoji) {
-        art = ansi.getEmojiImageArt();
-    } else {
-        art = ansi.getColorImageArt();
+    switch (ansi.mode) {
+        case ANSI::ansi:
+            art = ansi.getEmojiImageArt();
+            break;
+            
+        default:
+            art = ansi.getColorImageArt();
+            break;
     }
     
     std::ofstream outfile;
@@ -221,7 +229,10 @@ int main(int argc, const char * argv[])
     outfile.write(art.c_str(), art.length());
     outfile.close();
     
-    std::cout << (emoji ? "Emoji" : "ANSI") << " Image Art Generated!\n";
+    if (ansi.mode == ANSI::emoji) std::cout << "Emoji ";
+    if (ansi.mode == ANSI::ansi) std::cout << "ANSI ";
+    if (ansi.mode == ANSI::ascii) std::cout << "ASCII ";
+    std::cout << " Image Art Generated!\n";
     std::cout << "UTF-8 File '" << out_filename << "' Succefuly Created.\n";
     
     return 0;
