@@ -1,4 +1,4 @@
-<img src="../../../Insoft-UK/blob/main/assets/logo.svg" width="80" height="80" />
+<img src="https://raw.githubusercontent.com/Insoft-UK/Insoft-UK/main/assets/silhouette-logo.svg" style="width: 128px" />
 
 # ANSI Art Generator
 
